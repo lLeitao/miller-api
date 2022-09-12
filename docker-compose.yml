@@ -1,0 +1,34 @@
+version: '3.5'
+services:
+  miller-api:
+    hostname: miller-api
+    container_name: miller-api
+    build:
+      context: .
+      shm_size: '1gb' 
+    shm_size: '1gb'
+    command: npm run start
+    environment:
+      - NODE_ENV=local
+      - PORT=9000
+    volumes:
+      - ./:/miller-api
+    ports:
+      - 9000:9000
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    restart: always
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "3307:3307"
+      
